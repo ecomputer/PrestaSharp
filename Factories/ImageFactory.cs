@@ -37,6 +37,21 @@ namespace Bukimedia.PrestaSharp.Factories
             return AuxDeclinations;
         }
 
+        protected long AddImageId(string Resource, long? Id, string ImagePath)
+        {
+            RestRequest request = this.RequestForAddImage(Resource, Id, ImagePath);
+            var aux = this.Execute<Entities.image>(request);
+            return aux.id;
+        }
+
+        protected long AddImageId(string Resource, long? Id, byte[] Image)
+        {
+            RestRequest request = this.RequestForAddImage(Resource, Id, Image);
+            var aux = this.Execute<Entities.image>(request);
+            return aux.id;
+        }
+
+
         protected void AddImage(string Resource, long? Id, string ImagePath)
         {
             RestRequest request = this.RequestForAddImage(Resource, Id, ImagePath);
@@ -46,7 +61,7 @@ namespace Bukimedia.PrestaSharp.Factories
         protected void AddImage(string Resource, long? Id, byte[] Image)
         {
             RestRequest request = this.RequestForAddImage(Resource, Id, Image);
-            this.ExecuteForImage(request);
+            var aux = this.ExecuteForImage(request);
         }
 
         protected void UpdateImage(string Resource, long? ResourceId, long? ImageId, string ImagePath)
@@ -108,6 +123,16 @@ namespace Bukimedia.PrestaSharp.Factories
         public List<Entities.FilterEntities.declination> GetProductImages(long ProductId)
         {
             return this.GetImagesByInstance("products", ProductId);
+        }
+
+        public long AddProductImageId(long ProductId, string ProductImagePath)
+        {
+            return this.AddImageId("products", ProductId, ProductImagePath);
+        }
+
+        public long AddProductImageId(long ProductId, byte[] ProductImage)
+        {
+            return this.AddImageId("products", ProductId, ProductImage);
         }
 
         public void AddProductImage(long ProductId, string ProductImagePath)
